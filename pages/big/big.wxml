@@ -1,0 +1,7 @@
+<!--pages/big/big.wxml-->
+<view class="container">
+  <!-- 原始图片 -->
+  <image src="{{imageSrc}}" mode="aspectFit" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd"></image>
+  <!-- 放大镜的 canvas -->
+  <canvas canvas-id="magnifierCanvas" class="magnifier" hidden="{{!isMagnifying}}"></canvas>
+</view>

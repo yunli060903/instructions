@@ -1,0 +1,17 @@
+/* pages/big/big.wxss */
+.container {
+    position: relative;
+  }
+  
+  image {
+    width: 100%;
+  }
+  
+  .magnifier {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    pointer-events: none;
+  }

@@ -2,6 +2,7 @@
   "pages": [
     "pages/home/home",
     "pages/picpage/picpage",
+    "pages/big/big",
     "pages/index/index"
   ],
   "window": {

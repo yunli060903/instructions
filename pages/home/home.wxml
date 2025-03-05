@@ -1,8 +1,6 @@
 <!--pages/home/home.wxml-->
-<view wx:if="{{isRegister}}">
-    <camera style="width:300px;height:300px"></camera>
-    <button type="primary">拍摄</button>
+
+<view class="button-container">
+  <button type="primary" bindtap="gotopicpage">拍照</button>
+  <button type="primary" bindtap="gotobig">放大镜</button>
 </view>
-<view wx:else>
-</view>
-<button type="primary" bindtap="gotopicpage">拍照</button>
