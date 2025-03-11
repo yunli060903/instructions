@@ -1,0 +1,17 @@
+.container {
+  height: 100vh;
+  background: #ffffff;
+  padding: 40rpx;
+  box-sizing: border-box;
+}
+
+.text-container {
+  height: calc(100vh - 80rpx);
+}
+
+.content-text {
+  font-size: 32rpx;
+  line-height: 1.6;
+  color: #333333;
+  white-space: pre-wrap;
+}
