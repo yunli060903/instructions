@@ -33,9 +33,13 @@ def get_token():
     req = Request(TOKEN_URL, post_data)
     try:
         f = urlopen(req, timeout=5)
-        result_str = f.read()
-        if IS_PY3:
-            result_str = result_str.decode()
+        result_bytes = f.read()
+        try:
+            result_str = result_bytes.decode('utf-8')
+        '''
+        except UnicodeDecodeError:
+            result_str = result_bytes.decode('ISO-8859-1')
+        '''
         result = json.loads(result_str)
         if 'access_token' in result and 'scope' in result:
             if 'brain_all_scope' not in result['scope'].split(' '):
@@ -63,9 +67,13 @@ def perform_ocr(token, image_content):
     req = Request(image_url, data.encode('utf-8'))
     try:
         f = urlopen(req)
-        result_str = f.read()
-        if IS_PY3:
-            result_str = result_str.decode()
+        result_bytes = f.read()
+        try:
+            result_str = result_bytes.decode('utf-8')
+        '''
+        except UnicodeDecodeError:
+            result_str = result_bytes.decode('ISO-8859-1')
+        '''
         return json.loads(result_str)
     except URLError as err:
         print(f"OCR识别时出现错误: {err}")
@@ -91,7 +99,14 @@ def query_nlp(token, text):
     }
     try:
         response = requests.post(url, headers=headers, data=payload.encode("utf-8"))
-        return response.text
+        try:
+            response.encoding = 'utf-8'
+            return response.text
+
+        except UnicodeDecodeError:
+            response.encoding = 'ISO-8859-1'
+            return response.text
+
     except requests.RequestException as e:
         print(f"NLP查询时出现错误: {e}")
         return None
@@ -103,16 +118,16 @@ def process_image(request):
             data = json.loads(request.body)
             image_path = data.get('image_path')
             if not image_path:
-                return JsonResponse({"error": "Missing 'image_path' in request data"}, status=400)
+                return JsonResponse({"error": "丢失图片"}, status=400)
 
             token = get_token()
             image_content = read_image_file(image_path)
             if image_content is None:
-                return JsonResponse({"error": "Failed to read image file"}, status=500)
+                return JsonResponse({"error": "读取图片失败"}, status=500)
 
             ocr_result = perform_ocr(token, image_content)
             if ocr_result is None:
-                return JsonResponse({"error": "OCR recognition failed"}, status=500)
+                return JsonResponse({"error": "OCR识别失败"}, status=500)
 
             text = ''
             final_result = None
@@ -139,9 +154,9 @@ def process_image(request):
                 time.sleep(1)
 
             if final_result:
-                return JsonResponse({"result": final_result})
+                return JsonResponse({"result": final_result},status=200)
             else:
-                return JsonResponse({"result": "No relevant information found"}, status=404)
+                return JsonResponse({"result": "未找到相关信息"}, status=404)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+    return JsonResponse({"error": "请求方法无效"}, status=405)
