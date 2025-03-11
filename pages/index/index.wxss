@@ -1,0 +1,54 @@
+.loading-container {
+    position: relative; /* 为子元素的绝对定位提供参考 */
+  }
+  
+.background {
+    width: 100%;
+    height: 100vh;
+    background-color: #FFB947; /* 橙色背景 */
+}
+
+
+
+  .loading-text {
+    color: white;
+    font-size: 50rpx;
+    position: absolute; /* 绝对定位 */
+    bottom: 220px; /* 距离页面底部 20px */
+    left: 50%; /* 水平居中的初始设置 */
+    transform: translateX(-50%); /* 水平居中 */
+  }
+  
+  .progress-bar {
+    width: 500rpx;
+    height: 45rpx;
+    background-color: #FFB947;
+    border: 15rpx solid white;
+    border-radius: 50rpx;
+    overflow: hidden;
+    margin-bottom: 10px;
+    position: absolute; /* 绝对定位 */
+    bottom: 250px; /* 距离页面底部 20px */
+    left: 50%; /* 水平居中的初始设置 */
+    transform: translateX(-50%); /* 水平居中 */
+  }
+  
+  .progress-icon {
+    width: 50rpx;
+    height: 50rpx;
+  }
+
+  .progress {
+    height: 100%;
+    margin-right: -30rpx; /* 让图标部分覆盖进度条 */
+    background-color: #FFFFE0;
+  }
+
+  .page-image {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 图片居中 */
+    width: 500rpx;
+    height: 500rpx;
+  }

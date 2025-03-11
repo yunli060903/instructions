@@ -1,0 +1,13 @@
+<view class="loading-container" wx:if="{{isLoading}}">
+  <view class="background"></view>
+  <view class="progress-bar">
+    <view class="progress" style="width: {{progress}}%;"></view>
+  </view>
+  <image class="page-image" src="1.png"></image>
+  <text class="loading-text">Loading...</text>
+</view>
+<view wx:else>
+  <!-- 页面的其他内容 -->
+  <text>这是页面的主体内容</text>
+</view>
+
