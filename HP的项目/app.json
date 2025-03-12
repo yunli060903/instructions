@@ -12,6 +12,9 @@
   "permission": {
     "scope.camera": {
       "desc": "需要相机权限以拍摄药品说明书"
+    },  
+    "scope.backgroundFetch": {
+      "desc": "用于在后台同步数据以优化用户体验"
     }
   }
 }

@@ -134,12 +134,12 @@ def process_image(request):
                         if b:
                             c = b[0].get('items')
                             if c:
-                                final_result = a[0].get('content')
+                                final_result = a[0].get('items')
                                 break
                 time.sleep(1)
 
             if final_result:
-                return JsonResponse({"result": final_result})
+                return JsonResponse({"result": final_result},status=200)
             else:
                 return JsonResponse({"result": "No relevant information found"}, status=404)
         except Exception as e:
