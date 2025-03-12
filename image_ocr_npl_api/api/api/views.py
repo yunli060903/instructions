@@ -34,12 +34,8 @@ def get_token():
     try:
         f = urlopen(req, timeout=5)
         result_bytes = f.read()
-        try:
-            result_str = result_bytes.decode('utf-8')
-        '''
-        except UnicodeDecodeError:
-            result_str = result_bytes.decode('ISO-8859-1')
-        '''
+        if IS_PY3:
+            result_str = result_bytes.decode()
         result = json.loads(result_str)
         if 'access_token' in result and 'scope' in result:
             if 'brain_all_scope' not in result['scope'].split(' '):
@@ -67,13 +63,9 @@ def perform_ocr(token, image_content):
     req = Request(image_url, data.encode('utf-8'))
     try:
         f = urlopen(req)
-        result_bytes = f.read()
-        try:
-            result_str = result_bytes.decode('utf-8')
-        '''
-        except UnicodeDecodeError:
-            result_str = result_bytes.decode('ISO-8859-1')
-        '''
+        result_str = f.read()
+        if IS_PY3:
+            result_str = result_str.decode()
         return json.loads(result_str)
     except URLError as err:
         print(f"OCR识别时出现错误: {err}")
@@ -99,14 +91,8 @@ def query_nlp(token, text):
     }
     try:
         response = requests.post(url, headers=headers, data=payload.encode("utf-8"))
-        try:
-            response.encoding = 'utf-8'
-            return response.text
-
-        except UnicodeDecodeError:
-            response.encoding = 'ISO-8859-1'
-            return response.text
-
+        encoding = response.encoding if response.encoding else 'utf-8'
+        return response.content.decode(encoding)
     except requests.RequestException as e:
         print(f"NLP查询时出现错误: {e}")
         return None
