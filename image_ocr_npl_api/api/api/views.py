@@ -59,8 +59,10 @@ def read_image_file(image_path):
 
 def perform_ocr(token, image_content):
     image_url = OCR_URL + f"?access_token={token}"
-    data = urlencode({'image': base64.b64encode(image_content)})
-    req = Request(image_url, data.encode('utf-8'))
+    data = urlencode({'image': base64.b64encode(image_content).decode('utf-8')})
+    payload = {'image': data}
+    payload_json= json,dumps(payload,ensure_ascii=false).encode('utf-8')
+    req = Request(image_url, data=payload_json,headers={'Content-Type': 'application/json'})
     try:
         f = urlopen(req)
         result_str = f.read()
@@ -135,7 +137,7 @@ def process_image(request):
                         if b:
                             c = b[0].get('items')
                             if c:
-                                final_result = a[0].get('items')
+                                final_result = a[0].get('content')
                                 break
                 time.sleep(1)
 
