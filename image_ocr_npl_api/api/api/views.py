@@ -135,7 +135,7 @@ def process_image(request):
                         if b:
                             c = b[0].get('items')
                             if c:
-                                final_result = a[0].get('content')
+                                final_result = a[0].get('items')
                                 break
                 time.sleep(1)
 
