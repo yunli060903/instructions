@@ -60,7 +60,13 @@ def read_image_file(image_path):
 def perform_ocr(token, image_content):
     image_url = OCR_URL + f"?access_token={token}"
     data = urlencode({'image': base64.b64encode(image_content)})
+    '''
+    image_base64 = base64.b64encode(image_content).decode('utf-8')
+    payload = {'image': image_base64}
+    payload_json = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+    '''
     req = Request(image_url, data.encode('utf-8'))
+    #req = Request(image_url, data=payload_json, headers={'Content-Type': 'application/json'})
     try:
         f = urlopen(req)
         result_str = f.read()
@@ -101,20 +107,25 @@ def query_nlp(token, text):
 def process_image(request):
     if request.method == 'POST':
         try:
-            data = json.loads(request.body)
-            image_path = data.get('image_path')
-            if not image_path:
-                return JsonResponse({"error": "Missing 'image_path' in request data"}, status=400)
+            # Check if the request contains a file
+            if 'image' not in request.FILES:
+                return JsonResponse({"error": "No image file provided"}, status=400)
 
+            # Read the uploaded image file
+            image_file = request.FILES['image']
+            image_content = image_file.read()  # Read binary data
+
+            # Get Baidu AI token
             token = get_token()
-            image_content = read_image_file(image_path)
-            if image_content is None:
-                return JsonResponse({"error": "Failed to read image file"}, status=500)
+            if isinstance(token, JsonResponse):  # If token retrieval failed
+                return token
 
+            # Perform OCR on the image
             ocr_result = perform_ocr(token, image_content)
             if ocr_result is None:
                 return JsonResponse({"error": "OCR recognition failed"}, status=500)
 
+            # Extract text from OCR result
             text = ''
             final_result = None
             for words_result in ocr_result.get("words_result", []):
@@ -126,6 +137,7 @@ def process_image(request):
                     text += ab
                     continue
 
+                # Query NLP for "用法用量"
                 nlp_response = query_nlp(token, text1)
                 if nlp_response:
                     nlp_r = json.loads(nlp_response)
@@ -139,8 +151,9 @@ def process_image(request):
                                 break
                 time.sleep(1)
 
+            # Return the final result
             if final_result:
-                return JsonResponse({"result": final_result})
+                return JsonResponse({"result": final_result},status=200)
             else:
                 return JsonResponse({"result": "No relevant information found"}, status=404)
         except Exception as e:
