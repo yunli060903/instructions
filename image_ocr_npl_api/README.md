@@ -47,9 +47,9 @@ hzh：
 
 lsl：
 
-​	apikey:
+​	apikey:   nOr0A2gLO0UJPPg4JFGaCI7w
 
-​	secretkey:
+​	secretkey:   GSAdjtnvpSFUlcNUqqw0W6xUmfIYyEgM
 
 如果都无次数请使用hzh的，并通知hzh购买次数。
 
