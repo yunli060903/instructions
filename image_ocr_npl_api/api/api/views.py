@@ -12,8 +12,8 @@ import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-API_KEY = 'wlG8vZ0JoyV4BFKte2GV9EPL'
-SECRET_KEY = '7Qu7oMoou44el1KtO35qtmECeoK0iZmg'
+API_KEY = 'nOr0A2gLO0UJPPg4JFGaCI7w'
+SECRET_KEY = 'GSAdjtnvpSFUlcNUqqw0W6xUmfIYyEgM'
 OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"
 TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token'
 NLP_URL = "https://aip.baidubce.com/rpc/2.0/nlp/v1/txt_monet"
@@ -85,7 +85,7 @@ def query_nlp(token, text):
                 "content": text,
                 "query_list": [
                     {
-                        "query": "用法用量"
+                        "query": "用法"
                     }
                 ]
             }
