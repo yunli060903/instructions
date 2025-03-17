@@ -85,7 +85,7 @@ def query_nlp(token, text):
                 "content": text,
                 "query_list": [
                     {
-                        "query": "用法"
+                        "query": "用法用量"
                     }
                 ]
             }
