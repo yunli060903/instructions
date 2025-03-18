@@ -1,0 +1,19 @@
+<view class="container">
+  <snowflakes />
+  <text class="title">药品说明书</text>
+  <view class="card-container">
+    <view class="action-card" bindtap="handleCamera">
+      <!-- 绘制相机的 canvas -->
+      <canvas type="2d" id="cameraCanvas" class="card-icon"></canvas>
+      <text class="card-text">拍摄识别</text>
+    </view>
+    <view class="action-card" bindtap="handleAlbum">
+      <!-- 绘制放大镜的 canvas -->
+      <canvas type="2d" id="magnifierCanvas" class="card-icon"></canvas>
+      <text class="card-text">相册识别</text>
+    </view>
+  </view>
+  <view class="disclaimer">
+    <text>本产品的建议仅供参考，具体用药谨遵医嘱</text>
+  </view>
+</view>
