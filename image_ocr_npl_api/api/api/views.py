@@ -12,8 +12,8 @@ import ssl
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-API_KEY = 'nOr0A2gLO0UJPPg4JFGaCI7w'
-SECRET_KEY = 'GSAdjtnvpSFUlcNUqqw0W6xUmfIYyEgM'
+API_KEY = '1aivsZ8CFjykCtCk5w4Xea7M'
+SECRET_KEY = 'MCUxYP73OzCUGM5yBp1QhTyY1l6QYHhh'
 OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"
 TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token'
 NLP_URL = "https://aip.baidubce.com/rpc/2.0/nlp/v1/txt_monet"
