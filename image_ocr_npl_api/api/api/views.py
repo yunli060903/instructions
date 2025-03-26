@@ -60,13 +60,9 @@ def read_image_file(image_path):
 def perform_ocr(token, image_content):
     image_url = OCR_URL + f"?access_token={token}"
     data = urlencode({'image': base64.b64encode(image_content)})
-    '''
-    image_base64 = base64.b64encode(image_content).decode('utf-8')
-    payload = {'image': image_base64}
-    payload_json = json.dumps(payload, ensure_ascii=False).encode('utf-8')
-    '''
+
     req = Request(image_url, data.encode('utf-8'))
-    #req = Request(image_url, data=payload_json, headers={'Content-Type': 'application/json'})
+
     try:
         f = urlopen(req)
         result_str = f.read()
@@ -127,10 +123,12 @@ def process_image(request):
 
             # Extract text from OCR result
             text = ''
+            textall=[]
             final_result = None
             for words_result in ocr_result.get("words_result", []):
                 ab = words_result.get("words", "")
                 if ab and (ab[0] == '[' or ab[0] == '【'):
+
                     text1 = text
                     text = ab
                 else:
@@ -144,16 +142,29 @@ def process_image(request):
                     a = nlp_r.get('results_list')
                     if a:
                         b = a[0].get('results')
+                        k = a[0].get('content')
+                        textall.append(k)
                         if b:
                             c = b[0].get('items')
                             if c:
                                 final_result = a[0].get('content')
-                                break
+                                #break
                 time.sleep(1)
-
+            nlp_response = query_nlp(token, text)
+            if nlp_response:
+                nlp_r = json.loads(nlp_response)
+                a = nlp_r.get('results_list')
+                if a:
+                    b = a[0].get('results')
+                    k = a[0].get('content')
+                    textall.append(k)
+                    if b:
+                        c = b[0].get('items')
+                        if c:
+                            final_result = a[0].get('content')
             # Return the final result
             if final_result:
-                return JsonResponse({"result": final_result},status=200)
+                return JsonResponse({"result": final_result,"all_content":textall},status=200)
             else:
                 return JsonResponse({"result": "No relevant information found"}, status=404)
         except Exception as e:
