@@ -7,11 +7,15 @@ from PIL import Image
 from urllib.request import urlopen, Request
 from urllib.error import URLError
 from urllib.parse import urlencode, quote_plus
-
-from PIL.Image import Image
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import ssl
+
+import asyncio
+import io
+import edge_tts
+
+
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
