@@ -10,9 +10,15 @@ requests：调用百度ai，发送https请求
 
 django：web架构
 
+pilliw：图片格式转化
+
+edge-tts:文字转语音
+
 ```
 pip install requests
 pip install django
+pip install pillow
+pip install edge-tts
 ```
 
 ## 操作方法
@@ -26,7 +32,8 @@ run manage.py runserver
 ## 接口
 
 ```
-http://127.0.0.1:8000/api/process_image/
+http://127.0.0.1:8000/api/process_image/                	#图片文字提取+nlp
+http://127.0.0.1:8000/api/tts/								#文字转语音功能 
 ```
 
 ## 百度ai的调用
