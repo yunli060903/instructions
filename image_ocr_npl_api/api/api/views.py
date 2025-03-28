@@ -3,9 +3,12 @@ import json
 import base64
 import requests
 import time
+from PIL import Image
 from urllib.request import urlopen, Request
 from urllib.error import URLError
 from urllib.parse import urlencode, quote_plus
+
+from PIL.Image import Image
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import ssl
@@ -175,3 +178,4 @@ def process_image(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=405)
+
