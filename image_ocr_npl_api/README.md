@@ -36,6 +36,12 @@ http://127.0.0.1:8000/api/process_image/                	#图片文字提取+nlp
 http://127.0.0.1:8000/api/tts/								#文字转语音功能 
 ```
 
+process_image:接收图片，发送json（result字段为用药用量，all_content字段为全文扫描的字符串数组）
+
+tts：接收文字，将文字转为语音MP3文件发送会前端
+
+
+
 ## 百度ai的调用
 
 如遇到百度ai中npl次数没有了有一下账号可使用
