@@ -179,3 +179,30 @@ def process_image(request):
             return JsonResponse({"error": str(e)}, status=500)
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
+#语音转文字
+async def text_to_speech_async(text):
+    communicate = edge_tts.Communicate(text, "zh-CN-XiaoxiaoNeural")
+    audio_file = io.BytesIO()
+    async for chunk in communicate.stream():
+        if chunk["type"] == "audio":
+            audio_file.write(chunk["data"])
+    audio_file.seek(0)
+    return audio_file
+
+@csrf_exempt
+def text_to_speech(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        if text:
+            try:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                audio_file = loop.run_until_complete(text_to_speech_async(text))
+                loop.close()
+
+                response = HttpResponse(audio_file, content_type='audio/mpeg',status=200)
+                response['Content-Disposition'] = 'attachment; filename=speech.mp3'
+                return response
+            except Exception as e:
+                return HttpResponse(f"转换语音时出错: {str(e)}", status=500)
+    return HttpResponse('请提供有效的文本。', status=400)
