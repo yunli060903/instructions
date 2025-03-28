@@ -107,9 +107,14 @@ def process_image(request):
             if 'image' not in request.FILES:
                 return JsonResponse({"error": "No image file provided"}, status=400)
 
-            # Read the uploaded image file
+                # Read the uploaded image file
             image_file = request.FILES['image']
-            image_content = image_file.read()  # Read binary data
+            img = Image.open(image_file)
+            if img.mode in ('RGBA', 'LA') or (img.mode == 'P' and 'transparency' in img.info):
+                img = img.convert('RGB')
+            img_byte_arr = io.BytesIO()
+            img.save(img_byte_arr, format='JPEG')
+            image_content = img_byte_arr.getvalue()
 
             # Get Baidu AI token
             token = get_token()
